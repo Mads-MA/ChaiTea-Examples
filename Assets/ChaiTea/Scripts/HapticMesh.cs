@@ -12,8 +12,11 @@ public class HapticMesh : HapticObject
 
     protected override void Awake()
     {
-        obj = new ChaiTea.Mesh(meshFilter.mesh);
+        var meshObj = new ChaiTea.Mesh(meshFilter.mesh);
+        meshObj.SetScale(transform.localScale);
+        obj = meshObj;
         base.Awake();
+        
     }
 
     protected override void Start()
