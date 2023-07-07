@@ -8,6 +8,7 @@ public class Simulation : MonoBehaviour
 {
     Thread simThread;
     bool simulationRunning = false;
+    bool hapticThreadStopped = true;
 
     [SerializeField]
     private CursorTool tool;
@@ -22,12 +23,15 @@ public class Simulation : MonoBehaviour
     private void OnDestroy()
     {
         simulationRunning= false;
+        while (!hapticThreadStopped)
+            Thread.Sleep(5);
         simThread.Join();
     }
 
     private void UpdateHaptics()
     {
         simulationRunning = true;
+        hapticThreadStopped = false;
         while (simulationRunning)
         {
             //Compute global reference frames for each object
@@ -42,6 +46,8 @@ public class Simulation : MonoBehaviour
             //send forces to haptic device
             tool.Tool.ApplyToDevice();
         }
+        hapticThreadStopped = true;
+        tool.Tool.StopServo();
         HapticWorld.Instance.ResetWorld();
     }
 }

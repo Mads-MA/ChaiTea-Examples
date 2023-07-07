@@ -60,7 +60,7 @@ public class CursorTool : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        tool.StopServo();
+        //tool.StopServo();
     }
 
     //We cannot modify objects in OnValidate, so we do a workaround.
